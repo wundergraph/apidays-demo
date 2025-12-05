@@ -1,0 +1,23 @@
+{
+  "name": "apidays-demo",
+  "private": true,
+  "workspaces": [
+    "subgraphs/*"
+  ],
+  "scripts": {
+    "start": "concurrently \"npm run start --workspace=subgraphs/locations\" \"npm run start --workspace=subgraphs/speakers\" \"npm run start --workspace=subgraphs/sessions\"",
+    "check:locations": "wgc subgraph check locations --schema subgraphs/locations/schema.graphql --label project=apidays",
+    "check:speakers": "wgc subgraph check speakers --schema subgraphs/speakers/schema.graphql --label project=apidays",
+    "check:sessions": "wgc subgraph check sessions --schema subgraphs/sessions/schema.graphql --label project=apidays",
+    "check:all": "pnpm check:locations && pnpm check:speakers && pnpm check:sessions",
+    "publish:locations": "wgc subgraph publish locations --schema subgraphs/locations/schema.graphql --label project=apidays --routing-url http://localhost:5001/graphql",
+    "publish:speakers": "wgc subgraph publish speakers --schema subgraphs/speakers/schema.graphql --label project=apidays --routing-url http://localhost:5002/graphql",
+    "publish:sessions": "wgc subgraph publish sessions --schema subgraphs/sessions/schema.graphql --label project=apidays --routing-url http://localhost:5003/graphql",
+    "publish:all": "pnpm publish:locations && pnpm publish:speakers && pnpm publish:sessions",
+    "fetch:schema": "wgc federated-graph fetch-schema apidays > federation/schema.graphql",
+    "router": "docker run --name cosmo-router --rm -p 3002:3002 --add-host=host.docker.internal:host-gateway --pull always --env-file .env -e DEV_MODE=true -e DEMO_MODE=true -e LISTEN_ADDR=0.0.0.0:3002 ghcr.io/wundergraph/cosmo/router:latest"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

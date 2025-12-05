@@ -1,0 +1,15 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable"])
+
+type Speaker @key(fields: "id") {
+  id: ID!
+  name: String @shareable
+  company: String
+  jobtitle: String
+  avatar: String
+}
+
+type Query {
+  speakers(name: String): [Speaker!]!
+  speaker(id: ID!): Speaker
+}
+
