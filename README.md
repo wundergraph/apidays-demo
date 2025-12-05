@@ -9,6 +9,7 @@ A demo project showcasing a federated GraphQL architecture for API Days Paris 20
 *   **locations**: Manages venue and room information.
 *   **speakers**: Manages speaker profiles.
 *   **sessions**: Manages conference sessions and schedule.
+*   **ratings**: Manages session ratings and aggregation.
 
 ## Getting Started
 
@@ -26,6 +27,7 @@ A demo project showcasing a federated GraphQL architecture for API Days Paris 20
     *   Locations: http://localhost:5001
     *   Speakers: http://localhost:5002
     *   Sessions: http://localhost:5003
+    *   Ratings: http://localhost:5004
 
 3.  Create a Graph API Token and configure your environment:
     ```bash
