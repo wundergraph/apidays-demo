@@ -10,3 +10,4 @@ type Mutation {
   rateSession(sessionId: ID!, rating: Int!): Session
 }
 
+

@@ -53,3 +53,4 @@ startStandaloneServer(server, {
   console.log(`Ratings subgraph ready at ${url}`);
 });
 
+
