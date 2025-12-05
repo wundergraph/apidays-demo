@@ -1,5 +1,7 @@
 # APIDays Demo
 
+![APIDays Demo Hero Image](apidays-hero.png)
+
 A demo project showcasing a federated GraphQL architecture for API Days Paris 2025.
 
 ## Subgraphs
