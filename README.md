@@ -54,4 +54,7 @@ A demo project showcasing a federated GraphQL architecture for API Days Paris 20
 *   `pnpm check:all`: Check all subgraphs against the registry.
 *   `pnpm publish:all`: Publish all subgraphs to the registry.
 *   `pnpm fetch:schema`: Fetch the latest federated schema.
+*   `pnpm generate:proto`: Generate Protobuf definitions for the AgendaService.
+
+**Note:** The `service.proto` and `service.proto.lock.json` files are ignored in this repo to demonstrate the generation process. In a real-world scenario, these should be committed to version control.
 

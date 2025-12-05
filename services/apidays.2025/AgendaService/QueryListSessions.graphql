@@ -1,0 +1,9 @@
+query ListSessions {
+  sessions {
+    id
+    title
+    description
+    day
+    dateStart
+  }
+}

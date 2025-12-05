@@ -12,4 +12,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 federation/
-
+# NOTE: In a real project, these would be committed.
+# We ignore them here to demonstrate generation during the demo.
+service.proto
+service.proto.lock.json

@@ -1,0 +1,16 @@
+mutation RateSession($sessionID: ID!, $rating: Int!) {
+  rateSession(sessionId: $sessionID, rating: $rating) {
+    title
+    description
+    day
+    ratingsCount
+    averageRating
+    speakers {
+      name
+      company
+    }
+    locations {
+      title
+    }
+  }
+}

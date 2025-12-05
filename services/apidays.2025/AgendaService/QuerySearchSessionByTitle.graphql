@@ -1,0 +1,12 @@
+query SearchSessionByTitle($searchTitle: String!) {
+  sessions(title: $searchTitle) {
+    id
+    title
+    description
+    speakers {
+      name
+      company
+      jobtitle
+    }
+  }
+}

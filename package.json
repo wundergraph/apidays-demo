@@ -17,6 +17,7 @@
     "publish:ratings": "wgc subgraph publish ratings --schema subgraphs/ratings/schema.graphql --label project=apidays --routing-url http://localhost:5004/graphql",
     "publish:all": "pnpm publish:locations && pnpm publish:speakers && pnpm publish:sessions && pnpm publish:ratings",
     "fetch:schema": "wgc federated-graph fetch-schema apidays > federation/schema.graphql",
+    "generate:proto": "wgc grpc-service generate -w ./services/apidays.2025/AgendaService -o ./services/apidays.2025/AgendaService -p apidays.2025 AgendaService",
     "router": "docker run --name cosmo-router --rm -p 3002:3002 --add-host=host.docker.internal:host-gateway --pull always --env-file .env -e DEV_MODE=true -e DEMO_MODE=true -e LISTEN_ADDR=0.0.0.0:3002 ghcr.io/wundergraph/cosmo/router:latest"
   },
   "devDependencies": {
