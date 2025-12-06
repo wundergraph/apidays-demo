@@ -44,17 +44,33 @@ A demo project showcasing a federated GraphQL architecture for API Days Paris 20
     pnpm publish:all
     ```
 
-5.  Run the Router (requires Docker and a `.env` file with `GRAPH_API_TOKEN`):
+5a. Run the Federation Router (requires Docker and a `.env` file with `GRAPH_API_TOKEN`):
     ```bash
-    pnpm run router
+    pnpm run router:docker
+    ```
+
+5b. Run the Connect Router (requires `.connect.env`):
+    ```bash
+    pnpm run router:connect
+    ```
+
+5c. Run the MCP Router (requires `.mcp.env`):
+    ```bash
+    pnpm run router:mcp
     ```
 
 ## Scripts
 
+*   `pnpm start`: Start all subgraphs concurrently (Locations, Speakers, Sessions, Ratings).
+*   `pnpm check:<subgraph>`: Check a specific subgraph schema against the registry (e.g., `check:locations`).
 *   `pnpm check:all`: Check all subgraphs against the registry.
+*   `pnpm publish:<subgraph>`: Publish a specific subgraph schema to the registry (e.g., `publish:locations`).
 *   `pnpm publish:all`: Publish all subgraphs to the registry.
-*   `pnpm fetch:schema`: Fetch the latest federated schema.
+*   `pnpm fetch:schema`: Fetch the latest federated schema from the registry.
 *   `pnpm generate:proto`: Generate Protobuf definitions for the AgendaService.
+*   `pnpm router:docker`: Run the Cosmo Router in Docker (requires `.env`).
+*   `pnpm router:connect`: Run the Connect Router (requires `.connect.env`).
+*   `pnpm router:mcp`: Run the MCP Router (requires `.mcp.env`).
 
 **Note:** The `service.proto` and `service.proto.lock.json` files are ignored in this repo to demonstrate the generation process. In a real-world scenario, these should be committed to version control.
 
