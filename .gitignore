@@ -16,3 +16,5 @@ federation/
 # We ignore them here to demonstrate generation during the demo.
 service.proto
 service.proto.lock.json
+.connect.env
+.mcp.env
