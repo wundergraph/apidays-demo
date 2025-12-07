@@ -20,7 +20,7 @@
     "generate:proto": "wgc grpc-service generate -w ./services/apidays.v2025/AgendaService -i ./federation/schema.graphql -o ./services/apidays.v2025/AgendaService -p apidays.v2025 AgendaService",
     "router:docker": "docker run --name cosmo-router --rm -p 3002:3002 --add-host=host.docker.internal:host-gateway --pull always --env-file .env -e DEV_MODE=true -e DEMO_MODE=true -e LISTEN_ADDR=0.0.0.0:3002 ghcr.io/wundergraph/cosmo/router:latest",
     "router:connect": "./router-connect -override-env .connect.env",
-    "router:mcp": "./router-mcp -override-env .mcp.env"
+    "mcp:inspector": "npx @modelcontextprotocol/inspector"
   },
   "devDependencies": {
     "@bufbuild/protobuf": "^1.10.1",

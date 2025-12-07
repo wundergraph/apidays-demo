@@ -13,6 +13,30 @@ connect_rpc:
   services_provider_id: "fs-services"
   graphql_endpoint: "http://localhost:3002/graphql"
 
+mcp:
+  enabled: true
+  graph_name: "apidays"
+  
+  # MCP server configuration
+  server:
+    listen_addr: "localhost:5025"
+
+  # Storage configuration for GraphQL operations
+  storage:
+    provider_id: "fs-services"
+  
+  # Session configuration
+  session:
+    stateless: true
+  
+  # Feature flags
+  exclude_mutations: false
+  enable_arbitrary_operations: false
+  expose_schema: true
+  
+  # Router URL (optional - defaults to router's GraphQL endpoint)
+  router_url: "http://localhost:3002/graphql"
+
 # Storage providers for services directory
 storage_providers:
   file_system:

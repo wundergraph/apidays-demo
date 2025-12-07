@@ -1,9 +1,9 @@
 """
-SearchSessionByTitle searches for sessions matching a specific title keyword via case-insensitive substring match.
+SearchSessions searches for sessions matching a keyword in title, description, or tags via fuzzy matching.
 It also resolves associated speaker details (name, company, job title) using the speakers subgraph.
 """
-query SearchSessionByTitle($searchTitle: String!) {
-  sessions(title: $searchTitle) {
+query SearchSessions($query: String!) {
+  sessions(search: $query) {
     id
     title
     description

@@ -10,14 +10,73 @@ const rawData = fs.readFileSync(dataPath, 'utf-8');
 const data = JSON.parse(rawData);
 const sessions = data.sessions || [];
 
+function levenshtein(a: string, b: string): number {
+  const an = a ? a.length : 0;
+  const bn = b ? b.length : 0;
+  if (an === 0) return bn;
+  if (bn === 0) return an;
+  const matrix = new Array(bn + 1);
+  for (let i = 0; i <= bn; ++i) {
+    let row = (matrix[i] = new Array(an + 1));
+    row[0] = i;
+  }
+  const firstRow = matrix[0];
+  for (let j = 1; j <= an; ++j) {
+    firstRow[j] = j;
+  }
+  for (let i = 1; i <= bn; ++i) {
+    for (let j = 1; j <= an; ++j) {
+      if (b.charAt(i - 1) === a.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1], // substitution
+          matrix[i][j - 1], // insertion
+          matrix[i - 1][j] // deletion
+        ) + 1;
+      }
+    }
+  }
+  return matrix[bn][an];
+}
+
+function isMatch(text: string, search: string): boolean {
+  if (!text) return false;
+  const lowerText = text.toLowerCase();
+  const lowerSearch = search.toLowerCase();
+  
+  // 1. Exact substring
+  if (lowerText.includes(lowerSearch)) return true;
+
+  // 2. Fuzzy match
+  const maxTotalDistance = Math.max(5, Math.floor(lowerSearch.length * 0.4));
+  if (levenshtein(lowerSearch, lowerText) <= maxTotalDistance) return true;
+
+  // 3. Word match
+  const words = lowerText.split(/[\s-]+/);
+  return words.some(word => {
+     const allowed = word.length < 4 ? 0 : Math.min(3, Math.ceil(word.length * 0.4));
+     return levenshtein(lowerSearch, word) <= allowed;
+  });
+}
+
 const typeDefs = gql(fs.readFileSync(path.resolve(__dirname, 'schema.graphql'), 'utf-8'));
 
 const resolvers = {
   Query: {
-    sessions: (_: any, args: { id?: string, title?: string, tag?: string }) => {
+    sessions: (_: any, args: { id?: string, title?: string, tag?: string, search?: string }) => {
       return sessions.filter((s: any) => {
         if (args.id && s.id != args.id) return false;
-        if (args.title && !s.title?.toLowerCase().includes(args.title.toLowerCase())) return false;
+        
+        if (args.title && !isMatch(s.title, args.title)) return false;
+        
+        if (args.search) {
+            const titleMatch = isMatch(s.title, args.search);
+            const descMatch = isMatch(s.description, args.search);
+            const tagMatch = s.tags ? s.tags.some((t: any) => isMatch(t.title, args.search)) : false;
+            if (!titleMatch && !descMatch && !tagMatch) return false;
+        }
+
         if (args.tag) {
             if (!s.tags) return false;
             const tagMatch = s.tags.some((t: any) => t.title?.toLowerCase().includes(args.tag!.toLowerCase()));

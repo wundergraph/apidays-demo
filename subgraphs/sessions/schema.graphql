@@ -30,6 +30,6 @@ type Location @key(fields: "id") {
 }
 
 type Query {
-  sessions(id: ID, title: String, tag: String): [Session!]!
+  sessions(id: ID, title: String, tag: String, search: String): [Session!]!
   session(id: ID!): Session
 }
