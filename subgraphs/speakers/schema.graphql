@@ -9,7 +9,7 @@ type Speaker @key(fields: "id") {
 }
 
 type Query {
-  speakers(name: String): [Speaker!]!
+  speakers(name: String, search: String): [Speaker!]!
   speaker(id: ID!): Speaker
 }
 

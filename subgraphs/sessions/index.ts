@@ -40,7 +40,7 @@ function levenshtein(a: string, b: string): number {
   return matrix[bn][an];
 }
 
-function isMatch(text: string, search: string): boolean {
+function isMatch(text: string | undefined | null, search: string): boolean {
   if (!text) return false;
   const lowerText = text.toLowerCase();
   const lowerSearch = search.toLowerCase();
@@ -49,13 +49,20 @@ function isMatch(text: string, search: string): boolean {
   if (lowerText.includes(lowerSearch)) return true;
 
   // 2. Fuzzy match
-  const maxTotalDistance = Math.max(5, Math.floor(lowerSearch.length * 0.4));
+  const maxTotalDistance = Math.max(3, Math.floor(lowerSearch.length * 0.2));
   if (levenshtein(lowerSearch, lowerText) <= maxTotalDistance) return true;
 
   // 3. Word match
   const words = lowerText.split(/[\s-]+/);
   return words.some(word => {
-     const allowed = word.length < 4 ? 0 : Math.min(3, Math.ceil(word.length * 0.4));
+     // Stricter word matching:
+     // - Short words (< 4 chars) need exact match
+     // - Medium words (4-7 chars) allow 1 edit
+     // - Long words (> 7 chars) allow 2 edits
+     let allowed = 0;
+     if (word.length > 7) allowed = 2;
+     else if (word.length > 3) allowed = 1;
+     
      return levenshtein(lowerSearch, word) <= allowed;
   });
 }
@@ -73,8 +80,20 @@ const resolvers = {
         if (args.search) {
             const titleMatch = isMatch(s.title, args.search);
             const descMatch = isMatch(s.description, args.search);
-            const tagMatch = s.tags ? s.tags.some((t: any) => isMatch(t.title, args.search)) : false;
-            if (!titleMatch && !descMatch && !tagMatch) return false;
+            // s.tags is an array of objects like { title: "tag_name", ... }
+            const tagMatch = s.tags ? s.tags.some((t: any) => {
+                if (!t || !t.title) return false;
+                return isMatch(t.title, args.search!);
+            }) : false;
+            // Check speaker names and companies
+            const speakerMatch = s.speakers ? s.speakers.some((sp: any) => {
+                if (!sp) return false;
+                const nameMatch = sp.name ? isMatch(sp.name, args.search!) : false;
+                const companyMatch = sp.company ? isMatch(sp.company, args.search!) : false;
+                return nameMatch || companyMatch;
+            }) : false;
+            
+            if (!titleMatch && !descMatch && !tagMatch && !speakerMatch) return false;
         }
 
         if (args.tag) {

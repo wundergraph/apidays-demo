@@ -1,0 +1,15 @@
+"""
+SearchSessionsBySpeaker finds sessions by searching for speakers (name, company, etc).
+"""
+query SearchSessionsBySpeaker($query: String!) {
+  speakers(search: $query) {
+    name
+    company
+    jobtitle
+    sessions {
+      id
+      title
+      description
+    }
+  }
+}
