@@ -18,3 +18,5 @@ service.proto
 service.proto.lock.json
 .connect.env
 .mcp.env
+/gen/
+clients/go/go.sum
