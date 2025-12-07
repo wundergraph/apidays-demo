@@ -10,61 +10,9 @@ const rawData = fs.readFileSync(dataPath, 'utf-8');
 const data = JSON.parse(rawData);
 const sessions = data.sessions || [];
 
-function levenshtein(a: string, b: string): number {
-  const an = a ? a.length : 0;
-  const bn = b ? b.length : 0;
-  if (an === 0) return bn;
-  if (bn === 0) return an;
-  const matrix = new Array(bn + 1);
-  for (let i = 0; i <= bn; ++i) {
-    let row = (matrix[i] = new Array(an + 1));
-    row[0] = i;
-  }
-  const firstRow = matrix[0];
-  for (let j = 1; j <= an; ++j) {
-    firstRow[j] = j;
-  }
-  for (let i = 1; i <= bn; ++i) {
-    for (let j = 1; j <= an; ++j) {
-      if (b.charAt(i - 1) === a.charAt(j - 1)) {
-        matrix[i][j] = matrix[i - 1][j - 1];
-      } else {
-        matrix[i][j] = Math.min(
-          matrix[i - 1][j - 1], // substitution
-          matrix[i][j - 1], // insertion
-          matrix[i - 1][j] // deletion
-        ) + 1;
-      }
-    }
-  }
-  return matrix[bn][an];
-}
-
 function isMatch(text: string | undefined | null, search: string): boolean {
   if (!text) return false;
-  const lowerText = text.toLowerCase();
-  const lowerSearch = search.toLowerCase();
-  
-  // 1. Exact substring
-  if (lowerText.includes(lowerSearch)) return true;
-
-  // 2. Fuzzy match
-  const maxTotalDistance = Math.max(3, Math.floor(lowerSearch.length * 0.2));
-  if (levenshtein(lowerSearch, lowerText) <= maxTotalDistance) return true;
-
-  // 3. Word match
-  const words = lowerText.split(/[\s-]+/);
-  return words.some(word => {
-     // Stricter word matching:
-     // - Short words (< 4 chars) need exact match
-     // - Medium words (4-7 chars) allow 1 edit
-     // - Long words (> 7 chars) allow 2 edits
-     let allowed = 0;
-     if (word.length > 7) allowed = 2;
-     else if (word.length > 3) allowed = 1;
-     
-     return levenshtein(lowerSearch, word) <= allowed;
-  });
+  return text.toLowerCase().includes(search.toLowerCase());
 }
 
 const typeDefs = gql(fs.readFileSync(path.resolve(__dirname, 'schema.graphql'), 'utf-8'));

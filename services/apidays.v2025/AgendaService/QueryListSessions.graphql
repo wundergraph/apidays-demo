@@ -2,8 +2,8 @@
 ListSessions retrieves the complete dataset of sessions from the database without filtering.
 Returns basic metadata including ID, title, description, and timing information.
 """
-query ListSessions {
-  sessions {
+query ListSessions($search: String) {
+  sessions(search: $search) {
     id
     title
     description

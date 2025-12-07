@@ -1,7 +1,7 @@
 """
-SearchSessionsBySpeaker finds sessions by searching for speakers (name, company, etc).
+SearchSpeakers finds speakers and their sessions (name, company, etc).
 """
-query SearchSessionsBySpeaker($query: String!) {
+query SearchSpeakers($query: String!) {
   speakers(search: $query) {
     name
     company

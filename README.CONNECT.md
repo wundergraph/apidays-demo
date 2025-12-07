@@ -37,7 +37,7 @@ The Go client demonstrates consuming the API using the **gRPC protocol over HTTP
 go mod tidy
 
 # Run the client
-go run clients/go/main.go
+pnpm connect:client-go
 ```
 
 ### TypeScript Client
@@ -49,7 +49,7 @@ The TypeScript client demonstrates consuming the API using the **gRPC protocol o
 pnpm add @connectrpc/connect @connectrpc/connect-node @bufbuild/protobuf
 
 # Run the client
-pnpx tsx clients/ts/index.ts
+pnpm connect:client-ts
 ```
 
 ## Testing with CURL

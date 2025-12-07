@@ -20,3 +20,4 @@ service.proto.lock.json
 .mcp.env
 /gen/
 clients/go/go.sum
+.roo
