@@ -26,6 +26,14 @@ pnpm add -D @bufbuild/protoc-gen-es @connectrpc/protoc-gen-connect-es
 buf generate
 ```
 
+## Running the Router
+
+To run the Connect router:
+
+```bash
+pnpm connect:router
+```
+
 ## Running Clients
 
 ### Go Client
