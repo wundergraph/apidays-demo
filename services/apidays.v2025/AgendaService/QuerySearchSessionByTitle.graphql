@@ -1,3 +1,7 @@
+"""
+SearchSessionByTitle searches for sessions matching a specific title keyword via case-insensitive substring match.
+It also resolves associated speaker details (name, company, job title) using the speakers subgraph.
+"""
 query SearchSessionByTitle($searchTitle: String!) {
   sessions(title: $searchTitle) {
     id

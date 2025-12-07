@@ -1,3 +1,7 @@
+"""
+RateSession submits a session rating (integer 1-5), stored in-memory within the ratings subgraph.
+Returns the updated average rating and count, along with session details.
+"""
 mutation RateSession($sessionID: ID!, $rating: Int!) {
   rateSession(sessionId: $sessionID, rating: $rating) {
     title
